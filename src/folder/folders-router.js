@@ -2,6 +2,7 @@ const express = require('express')
 const FolderService = require('./folders-service')
 const foldersRouter = express.Router()
 const jsonParser = express.json()
+const uuid = require('uuid/v4')
 
 foldersRouter
   .route('/')
@@ -12,16 +13,18 @@ foldersRouter
           .json(folders)
       )
   })
+  
   .post(jsonParser, (req,res,next)=>{
-
     if(!req.body.title) {
+      res.setHeader('Access-Control-Allow-Origin', '*')
+
       res.status(400).json({
         error: {message: 'title is required'}
       })
     } else {
       FolderService.addFolder(
         req.app.get('db'),
-        req.body.title
+        req.body
       )
         .then(()=>{
           res.status(204).end()

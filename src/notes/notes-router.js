@@ -15,8 +15,8 @@ notesRouter
       .catch(next)
   })
   .post(jsonParser, (req,res,next)=>{
-    const { title, content, folder} = req.body
-    const newNote = { title, content, folder }
+    const { id, title, content, folder, date_created } = req.body
+    const newNote = { id, title, content, folder, date_created }
     
     for(const field of Object.values(newNote)){
       if (field == null) {
@@ -62,6 +62,7 @@ notesRouter
     res.status(200).json(req.note)
   )
   .delete((req,res,next)=>{
+    console.log(req.params.note_id)
     NotesService.deleteNote(
       req.app.get('db'),
       req.params.note_id

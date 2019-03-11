@@ -13,7 +13,7 @@ const FolderService = {
   },
   addFolder(knex, newFolder) {
     return knex
-      .insert({title: newFolder})
+      .insert(newFolder)
       .into('folders')
       .returning('*')
   },
